@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel=stylesheet type=text/css href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+    <link rel=stylesheet type=text/css href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+    <style>
+        .selector-for-some-widget {
+            box-sizing: content-box;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+</head>
+
+<html lang="zh-CN">
+    <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h3 class="display-4">github search result</h3>
+                <p class="lead">key words : {{keywords}}</p>
+             </div>
+        </div>
+        <div class="container">
+            <table id="example" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <td width="15%" style="table-layout:fixed;word-break:break-all; word-wrap:break-word">name</td>
+                        <td width="10%">author</td>
+                        <td width="10%">language</td>
+                        <td width="55%">description</td>
+                        <td width="5%" >star</td>
+                        <td width="5%" >delete</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for repo, desc in repos %}
+                    {% if desc.is_show == '1' %}
+                    <tr>
+                        <td width="15%" style="table-layout:fixed;word-break:break-all; word-wrap:break-word"><a href="{{repo}}" target='_blank'>{{desc.name}}</a></td>
+                        <td width="10%">{{desc.owner}}</td>
+                        <td width="10%">{{desc.language}}</td>
+                        <td width="55%">{{desc.repo_desc}}</td>
+                        <td width="5%" >{{desc.star}}</td>
+                        <td width="5%" ><button type="button" class="del-repo btn btn-secondary" data={{repo}}>delete</button></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        <script>
+            $('.del-repo').on('click', function(){
+                var repo = $(this).attr('data');
+                $.ajax({
+                    url: '/del_repo?repo='+repo,
+                    type: 'DELETE',
+                    success: function(result) {
+
+                    }
+                });
+                $(this).parent().parent().hide()
+            })
+
+
+        </script>
+
+    </body>
+
+
+</html>
