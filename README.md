@@ -1,12 +1,12 @@
 # github
 
-## introduction
+### introduction
 using keywords to search github, show using web.
 
-## install
+### install
 > apt-get install redis-server
 
-## run
+### run
 * run search scripts
 
 > python search.py
@@ -15,5 +15,5 @@ using keywords to search github, show using web.
 
 > python app.py
 
-## screenshots
+### screenshots
 
